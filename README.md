@@ -1,0 +1,16 @@
+# Dataset ogbg-code2 (Leaderboard):
+Graph: The ogbg-code2 dataset is a collection of Abstract Syntax Trees (ASTs) obtained from approximately 450 thousands Python method definitions. Methods are extracted from a total of 13,587 different repositories across the most popular projects on GitHub. Our collection of Python methods originates from GitHub CodeSearchNet, a collection of datasets and benchmarks for machine-learning-based code retrieval. In ogbg-code2, we contribute an additional feature extraction step, which includes: AST edges, AST nodes, and tokenized method name. Altogether, ogbg-code2 allows us to capture source code with its underlying graph structure, beyond its token sequence representation.
+
+Prediction task: The task is to predict the sub-tokens forming the method name, given the Python method body represented by AST and its node features. This task is often referred to as “code summarization”, because the model is trained to find succinct and precise description (i.e., the method name chosen by the developer) for a complete logical unit (i.e., the method body). Code summarization is a representative task in the field of machine learning for code not only for its straightforward adoption in developer tools, but also because it is a proxy measure for assessing how well a model captures the code semantic [1]. Following [2,3], we use an F1 score to evaluate predicted sub-tokens against ground-truth sub-tokens.
+
+Dataset splitting: We adopt a project split [4], where the ASTs for the train set are obtained from GitHub projects that do not appear in the validation and test sets. This split respects the practical scenario of training a model on a large collection of source code (obtained, for instance, from the popular GitHub projects), and then using it to predict method names on a separate code base. The project split stress-tests the model’s ability to capture code’s semantics, and avoids a model that trivially memorizes the idiosyncrasies of training projects (such as the naming conventions and the coding style of a specific developer) to achieve a high test score.
+
+Version: ogbg-codeg2 is available for ogb>=1.2.5. The previous version ogbg-code is deprecated for ogb>=1.2.5 due to prediction target (i.e., method name) leakage in input AST. The issue is resolved in ogbg-code2, where the method name and its recursive definition in AST are replaced with a special token _mask_. The deprecated leaderboard of ogbg-code can be found here.
+
+References
+[1] Miltiadis Allamanis, Earl T Barr, Premkumar Devanbu, and Charles Sutton. A survey of machinelearning for big code and naturalness.ACM Computing Surveys (CSUR), 51(4):1–37, 2018.  
+[2] Uri Alon, Shaked Brody, Omer Levy, and Eran Yahav. code2seq: Generating sequences from structured representations of code. arXiv preprint arXiv:1808.01400, 2018.  
+[3] Uri Alon, Meital Zilberstein, Omer Levy, and Eran Yahav. code2vec: Learning distributed rep-resentations of code. Proceedings of the ACM on Programming Languages, 3(POPL):1–29,2019.  
+[4] Miltiadis Allamanis. The adverse effects of code duplication in machine learning models of code. In Proceedings of the 2019 ACM SIGPLAN International Symposium on New Ideas, New Paradigms, and Reflections on Programming and Software, pp. 143–153, 2019.  
+
+License: MIT
